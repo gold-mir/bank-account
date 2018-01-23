@@ -1,0 +1,7 @@
+.transaction-form {
+  display: inline;
+}
+
+.transaction-form button {
+  display: block;
+}
