@@ -1,7 +1,7 @@
-.transaction-form {
-  display: inline;
-}
-
 .transaction-form button {
   display: block;
+}
+
+#transaction-prototype {
+  display: none;
 }

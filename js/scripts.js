@@ -1,43 +1,43 @@
-function Transaction (amount){
-  if(typeof amount === "number"){
-    this.value = amount;
-    this.date = new Date();
-  } else {
-    throw "Error: Transactions must be initialized with a number";
-  }
+var mainAccount;
+
+function showErrorMessage(message){
+  alert(message);
 }
 
-Transaction.prototype.isWithdrawl = function (){
-  return this.value < 0;
+function displayAccount(account){
+  $(".balance-display").text(account.balance);
+  $("#transaction-list").text("");
+  account.transactions.forEach(function(transaction){
+    var newLI = $("#transaction-prototype").clone();
+    newLI.find("span[name=transaction-type]").text(transaction.getTypeString());
+    newLI.find("span[name=transaction-amount]").text(Math.abs(transaction.value));
+    newLI.find("span[name=transaction-date]").text(transaction.date);
+    $("#transaction-list").prepend(newLI);
+    newLI.show();
+  });
 }
 
-Transaction.prototype.isDeposit = function(){
-  return this.value > 0;
-}
-
-function BankAccount(initialDeposit){
-  if(initialDeposit.isWithdrawl()){
-    throw "Error: Bank Accounts must be initialized with a deposit."
-  }
-  this.total = initialDeposit.value;
-  this.transactions = [];
-  this.transactions.push(initialDeposit);
-}
-
-BankAccount.prototype.addTransaction = function(transaction){
-  this.total += transaction.value;
-  this.transactions.push(transaction);
-  return this;
-}
-
-BankAccount.prototype.deposit = function(amount){
-  var newTransaction = new Transaction(amount);
-  this.total += newTransaction.value;
-  this.transactions.push(newTransaction);
-  return this;
-}
-
-BankAccount.prototype.withdraw = function(amount){
-  this.deposit(-amount);
-  return this;
-}
+$(document).ready(function(){
+  mainAccount = new BankAccount(new Transaction(4000));
+  displayAccount(mainAccount);
+  $(".transaction-form").submit(function(event){
+    event.preventDefault();
+    var input = $(this).find("input")
+    var transactionType = input.prop("name");
+    var value = parseFloat(input.val());
+    if(isNaN(value)){
+      showErrorMessage("error");
+      return;
+    } else {
+      if(transactionType === "deposit"){
+        mainAccount.deposit(value);
+      } else if(transactionType === "withdrawal") {
+        mainAccount.withdraw(value);
+      } else {
+        showErrorMessage("error");
+      }
+    }
+    displayAccount(mainAccount);
+    this.reset();
+  });
+});
