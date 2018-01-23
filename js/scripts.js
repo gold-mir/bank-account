@@ -20,13 +20,14 @@ function displayAccount(account){
 $(document).ready(function(){
   mainAccount = new BankAccount(new Transaction(4000));
   displayAccount(mainAccount);
-  $(".transaction-form").submit(function(event){
+  $("#transaction-form").submit(function(event){
     event.preventDefault();
-    var input = $(this).find("input")
-    var transactionType = input.prop("name");
+    var input = $(this).find("input[name=transaction]")
+    var transactionType = $(this).find("select").val();
+    console.log(transactionType);
     var value = parseFloat(input.val());
     if(isNaN(value)){
-      showErrorMessage("error");
+      showErrorMessage("Inputted value is not a number");
       return;
     } else {
       if(transactionType === "deposit"){
@@ -37,7 +38,7 @@ $(document).ready(function(){
         showErrorMessage("error");
       }
     }
+    input.val("");
     displayAccount(mainAccount);
-    this.reset();
   });
 });
