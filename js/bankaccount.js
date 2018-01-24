@@ -23,14 +23,18 @@ Transaction.prototype.getTypeString = function(){
   }
 }
 
-function BankAccount(initialDeposit){
+function BankAccount(name, initialDeposit){
   if(initialDeposit.isWithdrawl()){
     throw "Error: Bank Accounts must be initialized with a deposit."
   }
   this.balance = initialDeposit.value;
   this.transactions = [];
   this.transactions.push(initialDeposit);
+  this.name = name;
+  this.id = BankAccount.prototype.id+=1;
 }
+
+BankAccount.prototype.id = 0;
 
 BankAccount.prototype.addTransaction = function(transaction){
   this.balance += transaction.value;

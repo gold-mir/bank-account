@@ -2,6 +2,20 @@
   /*display: block;*/
 }
 
-#transaction-prototype {
+#transaction-prototype{
   display: none;
+}
+
+#account-display {
+  display: none;
+}
+
+.currently-active-account {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#account-list li {
+  color: blue;
+  cursor: pointer;
 }
